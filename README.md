@@ -257,4 +257,4 @@ either `.name` or `["name"]` for consistency (you do not want to need to do
 # Implementations
 - Python: libimportx-python
     [GitHub](https://github.com/itzmetanjim/libimportx-python)
-    [PyPI](https://pypi.org/project/libimportx/1.0.1/)
+    [PyPI](https://pypi.org/project/libimportx/)
