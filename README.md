@@ -99,7 +99,7 @@ This should be called after defining all the functions.
 
 ### Inputs
 
-No parameters.
+Optional parameters to specify the namespace to export.
 
 ### Action
 
