@@ -74,7 +74,14 @@ handles and corresponding data should be stored in a dictionary so they can be
 accessed by using them in the identifier field. The space character is important
 to prevent collisions with actual identifiers. It is also acceptable to generate
 a unique handle even when an identifier is available, but both the identifier
-and the handle should work to access the object. 
+and the handle should work to access the object.
+
+### Round-tripping
+
+If the host recieves a handle from the guest, it can pass that handle back to
+the guest as an argument in a `call` request or as a value in a `set` request
+(using the same notation). The guest should recognize it and treat it as the
+same object.
 
 ## Error Notation
 
