@@ -99,7 +99,8 @@ This should be called after defining all the functions.
 
 ### Inputs
 
-Optional parameters to specify the namespace to export.
+Optional parameters to specify the namespace to export. If not given, use a
+sensible default (`__main__` for Python, `requires.main.exports` for JS,etc).
 
 ### Action
 
@@ -129,6 +130,17 @@ For errors, the JSON should have the keys `type` and `message`. The error should
 be caught and not crash the program. Use the [Special JSON
 Notation](#Special-JSON-Notation) to represent non-JSON objects. It is required
 to make sure the sent JSON is in one line and add a newline at the end.
+
+The function can either block the thread or return `True` when the library is
+being importx'ed. For example, you use the JS implementation like so:
+```js
+module.exports={...}
+if(!libx.exportx()){
+    console.log("Running standalone")
+}else{
+    console.log("Running as a libimportx module")
+}
+```
 
 ### `importx(filepath)`
 
@@ -213,7 +225,9 @@ an `ImportxNamespace` object with the dictionary as its data. In both
 dictionaries and lists, replace all special JSON objects with an `ImportxOpaque`
 object that stores the handle and type. If there is an error (either in reading
 or when calling the function), throw an error with the message from the
-response. `getattr` and `getitem` should have the same behavior.
+response. `getattr` and `getitem` should have the same behavior. This may return
+a promise or be synchronous depending on implementation, consistent with the
+conventions of the language.
 
 ### setattr and setitem methods
 
@@ -238,14 +252,16 @@ variables.
 Similar to the `ImportxModule` object, but when sending the `read` or `set`
 request, but the variables accessed are inside the handle and the identifier
 should be modified accordingly. Examples: `opaque e2a3b.mykey` or
-`myfile["not a valid identifier."]`.
+`myfile["not a valid identifier."]`. This may be async or synchronous depending
+on the implementation, consistent with the conventions of the language.
 
 ### call method
 
 When the object is called, send a `call` request to the socket with the handle
 as the identifier and the arguments. Throw any errors that occur. The return
 value (JSON) should be converted back into the appropriate object similar to
-`getattr`.
+`getattr`. This may be async or synchronous depending on the implementation,
+consistent with the conventions of the language.
 
 
 ## `ImportxNamespace` object
@@ -255,6 +271,8 @@ either `.name` or `["name"]` for consistency (you do not want to need to do
 `module["function"]()`).
 
 # Implementations
-- Python: libimportx-python
+- Python: `libimportx-python`
     [GitHub](https://github.com/itzmetanjim/libimportx-python)
     [PyPI](https://pypi.org/project/libimportx/)
+- JavaScript: ``libimportx-js` (WIP, currently only has `exportx`)
+    [GitHub](https://github.com/itzmetanjim/libimportx-js)
