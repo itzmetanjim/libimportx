@@ -273,6 +273,7 @@ either `.name` or `["name"]` for consistency (you do not want to need to do
 # Implementations
 - Python: `libimportx-python`
     [GitHub](https://github.com/itzmetanjim/libimportx-python)
-    [PyPI](https://pypi.org/project/libimportx/)
-- JavaScript: ``libimportx-js` (WIP, currently only has `exportx`)
+    [PyPI](https://pypi.org/project/libimportx/) (`pip install libimportx`)
+- JavaScript: `libimportx-js`
     [GitHub](https://github.com/itzmetanjim/libimportx-js)
+    [npm](https://www.npmjs.com/package/libimportx) (`npm install libimportx`)
