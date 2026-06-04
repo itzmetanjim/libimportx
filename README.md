@@ -107,14 +107,16 @@ sensible default (`__main__` for Python, `requires.main.exports` for JS,etc).
 
 First, check the `LIBIMPORTX` environment variable. If it is not `true`, return
 False (the library is not being importx'ed). Read the `LIBIMPORTX_HOST` (this
-will be a filepath to a unix socket) and `LIBIMPORTX_TOKEN` environment
-variables. Then, create a connection to the socket and send the token then a
-newline character and wait for a response with a timeout. The response should be
-`+\n`. If it isn't, throw an error (token incorrect, should not happen). If it
-is correct, enter a blocking loop where you wait to receieve a response with no
+will be a filepath to a unix socket if it does not have a `:`, otherwise its an
+address like `127.0.0.1:58943`) and `LIBIMPORTX_TOKEN` environment variables.
+Then, create a connection to the socket and send the token then a newline
+character and wait for a response with a timeout. The response should be `+\n`.
+If it isn't, throw an error (token incorrect, should not happen). If it is
+correct, enter a blocking loop where you wait to receieve a response with no
 timeout. If the response is an empty string (connection closed), exit the
 program.  Otherwise, parse the response as JSON (keep reading until newline) and
 check the `type` field. It can be one of:
+
 - `read`: The `identifier` field will be the name of the variable or function to
     read. Parse the variable/function as JSON and send it, prefixed with `+` if
     successful or `-` if there was an error.
@@ -156,10 +158,12 @@ Example: `importx("myfile.py")` or `importx("myfile.py", "python3 myfile.py")`.
 
 ### Action
 
-Create a unix socket somewhere and generate a random token. Then, run the file
-in a subprocess with the following environment variables set:
+Create a unix socket somewhere or allocate a port locally and generate a random
+token. Then, run the file in a subprocess with the following environment
+variables set:
+
 - `LIBIMPORTX=true`
-- `LIBIMPORTX_HOST=<path to the socket>`
+- `LIBIMPORTX_HOST=<path to the socket or host:port>`
 - `LIBIMPORTX_TOKEN=<the generated token>`
 
 To run the file, try these steps in order:
@@ -213,7 +217,7 @@ variables in the file.
 
 ### Initialization
 
-When initialized, it should take in a unix socket, the subprocess and the
+When initialized, it should take in a unix/tcp socket, the subprocess and the
 temporary `$OUT` file if generated and store it in a variable. It should close
 the socket and remove the temporary files when the object is destroyed.
 
@@ -245,7 +249,7 @@ optional (when no type, store as None since it is a function).
 
 ### Initialization
 
-It should take in the handle, type and the unix socket and store them in
+It should take in the handle, type and the socket and store them in
 variables.
 
 ### getattr, getitem, setattr and setitem methods
