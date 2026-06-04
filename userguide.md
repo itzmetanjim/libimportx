@@ -5,6 +5,10 @@
 Python
 ------
 
+```bash
+pip install libimportx
+```
+
 ```python
 from libimportx import*
 
@@ -26,7 +30,9 @@ print("Running standalone")
 
 JavaScript
 ----------
-
+```bash
+npm install libimportx
+```
 ```js
 var {importx,exportx}=require("libimportx")
 
