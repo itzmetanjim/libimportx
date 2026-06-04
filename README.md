@@ -3,7 +3,8 @@
 Call functions written in other languages as if they were the same
 language. **This repository documents the API. For implementations of the
 library, see the specific language implementations in
-[implementations](#Implementations).**
+[implementations](#Implementations). For a guide on how to use these libraries,
+see [User Guide](userguide.md)**
 
 
 ## Identifiers
